@@ -66,3 +66,74 @@ gridElement.addEventListener('click', (e) => {
 });
 
 createGrid();
+const gridContainer = document.querySelector('.grid');
+const scoreEl = document.getElementById('score');
+const dock = document.getElementById('dock');
+
+let score = 0;
+let grid = Array(8).fill().map(() => Array(8).fill(0));
+
+// Definisi Bentuk Balok (Block Blast Style)
+const SHAPES = [
+    [[1, 1], [1, 1]], // Square
+    [[1, 1, 1, 1]],    // Line
+    [[1, 0], [1, 0], [1, 1]], // L Shape
+    [[1, 1, 1]],       // Small Line
+    [[1]]              // Single dot
+];
+
+function initGame() {
+    renderGrid();
+    spawnPieces();
+}
+
+function renderGrid() {
+    gridContainer.innerHTML = '';
+    grid.forEach((row, r) => {
+        row.forEach((val, c) => {
+            const cell = document.createElement('div');
+            cell.className = `cell ${val ? 'filled' : ''}`;
+            cell.dataset.r = r;
+            cell.dataset.c = c;
+            gridContainer.appendChild(cell);
+        });
+    });
+}
+
+function spawnPieces() {
+    dock.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+        const shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+        const piece = document.createElement('div');
+        piece.className = 'piece-preview';
+        // Logika render bentuk kecil di bawah...
+        // (Klik bentuk lalu klik grid untuk menaruhnya)
+        piece.onclick = () => selectPiece(shape, piece);
+        dock.appendChild(piece);
+    }
+}
+
+function checkAndClear() {
+    let rowsToClear = [];
+    let colsToClear = [];
+
+    // Logika AI deteksi baris & kolom penuh
+    for (let i = 0; i < 8; i++) {
+        if (grid[i].every(v => v === 1)) rowsToClear.push(i);
+        if (grid.map(row => row[i]).every(v => v === 1)) colsToClear.push(i);
+    }
+
+    rowsToClear.forEach(r => grid[r].fill(0));
+    colsToClear.forEach(c => grid.forEach(row => row[c] = 0));
+
+    if (rowsToClear.length > 0 || colsToClear.length > 0) {
+        score += (rowsToClear.length + colsToClear.length) * 100;
+        scoreEl.innerText = score;
+        // Efek guncangan layar (Screen Shake)
+        document.body.style.animation = 'shake 0.2s';
+        setTimeout(() => document.body.style.animation = '', 200);
+    }
+    renderGrid();
+}
+
+initGame();
