@@ -2,21 +2,58 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Block Blast Clone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Block Blast Ultra | Professional Edition</title>
+    
     <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🟦</text></svg>">
 </head>
 <body>
-    <div class="game-wrapper">
-        <div class="header">
-            <h1>Score: <span id="score">0</span></h1>
-        </div>
-        
-        <div id="grid" class="grid"></div>
 
-        <div class="pieces-container" id="pieces">
+    <main class="game-wrapper">
+        
+        <header class="game-header">
+            <div class="score-box">
+                <span class="score-label">SCORE</span>
+                <h1 id="score">0</h1>
             </div>
-    </div>
+            <div class="best-score-box">
+                <span class="score-label">BEST</span>
+                <h2 id="best-score">0</h2>
+            </div>
+        </header>
+
+        <section class="grid-container">
+            <div id="game-grid" class="game-grid"></div>
+            
+            <div id="game-over" class="overlay hidden">
+                <div class="overlay-content">
+                    <h2>GAME OVER!</h2>
+                    <p>Skor Kamu: <span id="final-score">0</span></p>
+                    <button id="restart-btn">MAIN LAGI</button>
+                </div>
+            </div>
+        </section>
+
+        <footer class="piece-dock">
+            <div class="dock-slot" id="slot-0"></div>
+            <div class="dock-slot" id="slot-1"></div>
+            <div class="dock-slot" id="slot-2"></div>
+        </footer>
+
+        <p class="hint">Geser balok ke papan untuk menghancurkan baris!</p>
+
+    </main>
+
+    <audio id="sfx-place" src="https://assets.mixkit.co/sfx/preview/mixkit-pop-up-click-2.mp3"></audio>
+    <audio id="sfx-blast" src="https://assets.mixkit.co/sfx/preview/mixkit-magical-coin-win-1936.mp3"></audio>
+
     <script src="script.js"></script>
 </body>
 </html>
